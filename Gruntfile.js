@@ -12,7 +12,8 @@ module.exports = function(grunt) {
 						"cssmin",
 						"jszip",
 						"filesaver",
-						"coffeescript"
+						"coffeescript",
+						"underscore"
 					],
 					optimize: "uglify2",
 					uglify2: {
