@@ -7,6 +7,13 @@ module.exports = function(grunt) {
 					mainConfigFile: "js/main.js",
 					out: "dist/main.js",
 					name: "main",
+					include: [
+						"uglify",
+						"cssmin",
+						"jszip",
+						"filesaver",
+						"coffeescript"
+					],
 					optimize: "uglify2",
 					uglify2: {
 							mangle: false
