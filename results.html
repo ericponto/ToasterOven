@@ -7,6 +7,8 @@
 	<ul class="list-group">
 		<li class="list-group-item" ng-repeat="file in outputs">
 			{{file.name}}
+			<button class="btn btn-sm btn-info preview-button" ng-click="file.showPreview = !file.showPreview">Preview</button>
+			<pre class="preview" ng-class="file.showPreview && 'preview-open'">{{file.text}}</pre>
 		</li>
 	</ul>
 

@@ -129,7 +129,7 @@ define(["angular", "services/files"], function(angular, Files) {
 								require(["underscore"], function(_) {
 									var jstText = "this.JST = this.JST || {};\n";
 									jstText += "this.JST[\"" + file.name + "\"] = ";
-									jstText += _.template(text).source;
+									jstText += _.template(text).source + ";";
 									outputFile.text = jstText;
 									outputFiles.push(outputFile);
 									dfd.resolve();
