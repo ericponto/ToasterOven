@@ -3,6 +3,7 @@ require.config({
 	paths: {
 		angular: "../bower_components/angular/angular.min",
 		"angular-route": "../bower_components/angular-route/angular-route.min",
+		underscore: "../bower_components/underscore/underscore",
 		uglify: "../bower_components/uglifyweb/dist/uglifyweb-1.1.1",
 		cssmin: "vendor/cssmin",
 		jszip: "../bower_components/jszip/jszip.min",

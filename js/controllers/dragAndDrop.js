@@ -7,7 +7,8 @@ define(["angular", "services/files"], function(angular, Files) {
 				$scope.tasks = [
 					"uglify",
 					"cssmin",
-					"coffee"
+					"coffee",
+					"jst"
 				];
 
 				$scope.toastType = "file";
@@ -19,7 +20,8 @@ define(["angular", "services/files"], function(angular, Files) {
 				var taskMap = {
 					js: "uglify",
 					css: "cssmin",
-					coffee: "coffee"
+					coffee: "coffee",
+					html: "jst"
 				};
 
 				/**
@@ -51,6 +53,12 @@ define(["angular", "services/files"], function(angular, Files) {
 
 						// change coffee extension to js
 						else if (ext === "coffee") {
+							nameSplit.push("js");
+							obj.output = nameSplit.join(".");
+						}
+
+						// change html templates to js
+						else if (ext === "html") {
 							nameSplit.push("js");
 							obj.output = nameSplit.join(".");
 						}
@@ -114,6 +122,15 @@ define(["angular", "services/files"], function(angular, Files) {
 							} else if (file.task === "coffee") {
 								require(["coffeescript"], function(CoffeeScript) {
 									outputFile.text = CoffeeScript.compile(text);
+									outputFiles.push(outputFile);
+									dfd.resolve();
+								});
+							} else if (file.task === "jst") {
+								require(["underscore"], function(_) {
+									var jstText = "this.JST = this.JST || {};\n";
+									jstText += "this.JST[\"" + file.name + "\"] = ";
+									jstText += _.template(text).source;
+									outputFile.text = jstText;
 									outputFiles.push(outputFile);
 									dfd.resolve();
 								});

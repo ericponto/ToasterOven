@@ -17,6 +17,7 @@
     "angular-route": "~1.2.16",
     "jszip": "~2.0.0",
     "requirejs": "~2.1.11",
-    "FileSaver": "*"
+    "FileSaver": "*",
+    "underscore": "~1.6.0"
   }
 }
