@@ -14,10 +14,17 @@ module.exports = function(grunt) {
 					preserveLicenseComments: false
 				}
 			}
+		},
+		copy: {
+			build: {
+				src: "bower_components/requirejs/require.js",
+				dest: "dist/require.js"
+			}
 		}
 	});
 
 	grunt.loadNpmTasks("grunt-contrib-requirejs");
+	grunt.loadNpmTasks("grunt-contrib-copy");
 
 	grunt.registerTask("default", ["requirejs"]);
 };
