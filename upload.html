@@ -1,0 +1,70 @@
+
+<div class="dropzone" ng-class="files.length && 'dropzone-small'" dropzone>
+	Drop files here.
+</div>
+
+<div ng-show="files.length">
+	<div class="well">
+		<h3 class="options-title">Options</h3>
+		<div class="row">
+			<div class="col-sm-2">
+				<div class="radio">
+					<label>
+						<input type="radio" ng-model="toastType" value="file">
+						Task per file
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" ng-model="toastType" value="bulk">
+						Bulk action
+					</label>
+				</div>
+			</div>
+			<div class="col-sm-5" ng-show="toastType=='bulk'">
+				<label>Choose a task</label>
+				<select class="form-control" ng-model="bulkTask">
+						<option value=""></option>
+						<option value="uglify">JS - Minify</option>
+						<option value="cssmin">CSS - Minify</option>
+						<option value="coffee">Compile CoffeeScript</option>
+					</select>
+			</div>
+			<div class="col-sm-5" ng-show="toastType=='bulk'">
+				<div class="form-group">
+					<label class="control-label"><input type="checkbox" ng-model="bulkConcat"> Concatenate files</label>
+					<input type="text"class="form-control" ng-model="bulkOutput" ng-show="bulkConcat" placeholder="File name">
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<table class="files table table-striped">
+		<thead>
+			<th></th>
+			<th>File</th>
+			<th ng-show="toastType=='file'">Choose a task</th>
+			<th ng-show="toastType=='file' || !bulkConcat">Output</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="file in files">
+				<td><a href="#" ng-click="removeFile(file)" title="Remove file"><i class="glyphicon glyphicon-remove"></i><a></td>
+				<td>{{file.name}}</td>
+				<td ng-show="toastType=='file'">
+					<select class="form-control" ng-model="file.task">
+						<option value=""></option>
+						<option value="uglify">JS - Minify</option>
+						<option value="cssmin">CSS - Minify</option>
+						<option value="coffee">Compile CoffeeScript</option>
+					</select>
+				</td>
+				<td ng-show="toastType=='file' || !bulkConcat">
+					<input type="text" class="form-control" ng-model="file.output">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="btn btn-success" ng-click="toastFiles()">Toast it</button>
+</div>

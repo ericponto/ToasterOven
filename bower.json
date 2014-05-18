@@ -1,0 +1,22 @@
+{
+  "name": "ToasterOven",
+  "version": "0.0.0",
+  "authors": [
+    "Eric Ponto <eric.ponto@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "uglifyweb": "https://github.com/jrburke/uglifyweb.git",
+    "angular-route": "~1.2.16",
+    "jszip": "~2.0.0",
+    "requirejs": "~2.1.11",
+    "FileSaver": "*"
+  }
+}

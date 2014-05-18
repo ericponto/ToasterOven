@@ -1,0 +1,20 @@
+<div class="alert alert-danger" ng-show="!outputs.length">
+	Oops...there are no files to show here. Go back to the <a href="/">home page</a>.
+</div>
+
+<div ng-show="outputs.length">
+	<h3 class="list-title text-info">Files</h3>
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="file in outputs">
+			{{file.name}}
+		</li>
+	</ul>
+
+	<p>
+		<button class="btn btn-success" ng-click="download()">Download</button>
+	</p>
+	
+
+	<p class="back"><a href="/"><i class="glyphicon glyphicon-chevron-left"></i> Toast some more files</a></p>
+</div>
+

@@ -1,0 +1,43 @@
+.dropzone {
+	padding: 3em 2em;
+	border: 0.5em dashed #3498db;
+	font-size: 2em;
+	margin-bottom: 1.5em;
+	transition: all .4s ease;
+}
+
+.dropzone-small {
+	font-size: 1em;
+}
+
+.dropzone-over {
+	border-color: #2383c4;
+	background-color: #e0e9ff;
+}
+
+.files {
+	margin-top: 1em;
+}
+
+.glyphicon-remove {
+	color: #e74c3c;
+}
+
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+
+.list-title,
+.options-title {
+	text-transform: uppercase;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.options-title {
+	margin-top: 0;
+}
+
+.back {
+	margin-top: 2.5em;
+}

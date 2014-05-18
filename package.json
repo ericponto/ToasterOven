@@ -1,0 +1,13 @@
+{
+  "name": "ToasterOven",
+  "version": "0.0.0",
+  "description": "Drag and drop tool",
+  "scripts": {
+    "install": "bower install"
+  },
+  "author": "Eric Ponto",
+  "devDependencies": {
+    "grunt-contrib-requirejs": "~0.4.4",
+    "grunt": "~0.4.5"
+  }
+}
