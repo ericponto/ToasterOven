@@ -96,6 +96,8 @@ define(["angular", "services/files"], function(angular, Files) {
 					var outputFiles = [];
 					var bulk = ($scope.toastType == "bulk");
 
+					$scope.toasting = true;
+
 					angular.forEach($scope.files, function(file) {
 						if (bulk) {
 							file.task = $scope.bulkTask;
@@ -182,6 +184,7 @@ define(["angular", "services/files"], function(angular, Files) {
 
 						//when we're all done, then go to the results page
 						$location.path("/results");
+						$scope.toasting = false;
 					});
 				};
 			}]);

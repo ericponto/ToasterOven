@@ -7,15 +7,6 @@ module.exports = function(grunt) {
 					mainConfigFile: "js/main.js",
 					out: "dist/main.js",
 					name: "main",
-					include: [
-						"uglify",
-						"cssmin",
-						"jszip",
-						"filesaver",
-						"coffeescript",
-						"underscore",
-						"less"
-					],
 					optimize: "uglify2",
 					uglify2: {
 							mangle: false
@@ -25,9 +16,27 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
-			build: {
+			require: {
 				src: "bower_components/requirejs/require.js",
 				dest: "dist/require.js"
+			},
+			// copy the important bower files to the vendor folder
+			bowerToVendor: {
+				files: [
+					{
+						expand: true,
+						cwd: "bower_components",
+						src: [
+							"underscore/underscore.js",
+							"uglifyweb/dist/uglifyweb-1.1.1.js",
+							"jszip/jszip.min.js",
+							"FileSaver/FileSaver.js",
+							"less/dist/less-1.7.0.js"
+						],
+						dest: "js/vendor/",
+						flatten: true
+					}
+				]
 			}
 		}
 	});

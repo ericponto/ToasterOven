@@ -3,13 +3,13 @@ require.config({
 	paths: {
 		angular: "../bower_components/angular/angular.min",
 		"angular-route": "../bower_components/angular-route/angular-route.min",
-		underscore: "../bower_components/underscore/underscore",
-		uglify: "../bower_components/uglifyweb/dist/uglifyweb-1.1.1",
+		underscore: "vendor/underscore",
+		uglify: "vendor/uglifyweb-1.1.1",
 		cssmin: "vendor/cssmin",
-		jszip: "../bower_components/jszip/jszip.min",
-		filesaver: "../bower_components/FileSaver/FileSaver",
+		jszip: "vendor/jszip.min",
+		filesaver: "vendor/FileSaver",
 		coffeescript: "vendor/coffee-script",
-		less: "../bower_components/less/dist/less-1.7.0"
+		less: "vendor/less-1.7.0"
 	},
 	shim: {
 		angular: {
