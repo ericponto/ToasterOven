@@ -13,7 +13,8 @@ module.exports = function(grunt) {
 						"jszip",
 						"filesaver",
 						"coffeescript",
-						"underscore"
+						"underscore",
+						"less"
 					],
 					optimize: "uglify2",
 					uglify2: {

@@ -8,7 +8,8 @@ require.config({
 		cssmin: "vendor/cssmin",
 		jszip: "../bower_components/jszip/jszip.min",
 		filesaver: "../bower_components/FileSaver/FileSaver",
-		coffeescript: "vendor/coffee-script"
+		coffeescript: "vendor/coffee-script",
+		less: "../bower_components/less/dist/less-1.7.0"
 	},
 	shim: {
 		angular: {

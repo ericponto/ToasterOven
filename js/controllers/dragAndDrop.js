@@ -21,7 +21,8 @@ define(["angular", "services/files"], function(angular, Files) {
 					js: "uglify",
 					css: "cssmin",
 					coffee: "coffee",
-					html: "jst"
+					html: "jst",
+					less: "less"
 				};
 
 				/**
@@ -60,6 +61,12 @@ define(["angular", "services/files"], function(angular, Files) {
 						// change html templates to js
 						else if (ext === "html") {
 							nameSplit.push("js");
+							obj.output = nameSplit.join(".");
+						}
+
+						// change less to css
+						else if (ext === "less") {
+							nameSplit.push("css");
 							obj.output = nameSplit.join(".");
 						}
 
@@ -133,6 +140,16 @@ define(["angular", "services/files"], function(angular, Files) {
 									outputFile.text = jstText;
 									outputFiles.push(outputFile);
 									dfd.resolve();
+								});
+							} else if (file.task === "less") {
+								require(["less"], function(less) {
+									less.Parser().parse(text, function(err, tree) {
+										if (!err) {
+											outputFile.text = tree.toCSS();
+											outputFiles.push(outputFile);
+											dfd.resolve();
+										}
+									});
 								});
 							} else {
 								// no task selected
