@@ -17,6 +17,5 @@ There are probably problems, so open issues.
 
 ## Stuff to do
 
-* Dynamically load the compilers needed instead of including them all in the main script
 * Add config options to each task type
 * Some proper error handling

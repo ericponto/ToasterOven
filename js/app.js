@@ -2,6 +2,7 @@ define([
 	"angular",
 	"angular-route",
 	"services/files",
+	"services/tasks",
 	"controllers/dragAndDrop",
 	"directives/dropzone",
 	"controllers/download"
@@ -10,6 +11,7 @@ define([
 	return angular.module("app", [
 		"ngRoute",
 		"app.files",
+		"app.tasks",
 		"app.dragAndDrop",
 		"app.dropzone",
 		"app.download"

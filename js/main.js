@@ -4,7 +4,7 @@ require.config({
 		angular: "../bower_components/angular/angular.min",
 		"angular-route": "../bower_components/angular-route/angular-route.min",
 		underscore: "vendor/underscore",
-		uglify: "vendor/uglifyweb-1.1.1",
+		uglifyweb: "vendor/uglifyweb-1.1.1",
 		cssmin: "vendor/cssmin",
 		jszip: "vendor/jszip.min",
 		filesaver: "vendor/FileSaver",
@@ -18,17 +18,11 @@ require.config({
 		"angular-route": {
 			deps: ["angular"]
 		},
-		uglify: {
-			exports: "uglify"
-		},
 		cssmin: {
 			exports: "cssmin"
 		},
 		jszip: {
 			exports: "JSZip"
-		},
-		coffeescript: {
-			exports: "CoffeeScript"
 		}
 	}
 });
