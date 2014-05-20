@@ -23,14 +23,9 @@
 			</div>
 			<div class="col-sm-5" ng-show="toastType=='bulk'">
 				<label>Choose a task</label>
-				<select class="form-control" ng-model="bulkTask">
-						<option value=""></option>
-						<option value="uglify">JS - Minify</option>
-						<option value="cssmin">CSS - Minify</option>
-						<option value="coffee">Compile CoffeeScript</option>
-						<option value="jst">Compile Underscore Template</option>
-						<option value="less">Compile LESS</option>
-					</select>
+				<select class="form-control" ng-model="bulkTask" ng-options="task.name as task.optionText for task in tasks">
+					<option value=""></option>
+				</select>
 			</div>
 			<div class="col-sm-5" ng-show="toastType=='bulk'">
 				<div class="form-group">
@@ -54,13 +49,8 @@
 				<td><a href="#" ng-click="removeFile(file)" title="Remove file"><i class="glyphicon glyphicon-remove"></i><a></td>
 				<td>{{file.name}}</td>
 				<td ng-show="toastType=='file'">
-					<select class="form-control" ng-model="file.task">
+					<select class="form-control" ng-model="file.task" ng-options="task.name as task.optionText for task in tasks">
 						<option value=""></option>
-						<option value="uglify">JS - Minify</option>
-						<option value="cssmin">CSS - Minify</option>
-						<option value="coffee">Compile CoffeeScript</option>
-						<option value="jst">Compile Underscore Template</option>
-						<option value="less">Compile LESS</option>
 					</select>
 				</td>
 				<td ng-show="toastType=='file' || !bulkConcat">
