@@ -20,6 +20,9 @@ define(["angular", "underscore", "services/files", "services/tasks"],
 					 * @param {FileList} fileList A list of files from the drop event
 					 */
 					$scope.addFiles = function(fileList) {
+						// clear error
+						$scope.error = "";
+
 						angular.forEach(fileList, function(file, i) {
 							var obj = {
 								file: file,
@@ -56,6 +59,10 @@ define(["angular", "underscore", "services/files", "services/tasks"],
 					 * @param  {file} file
 					 */
 					$scope.removeFile = function (file) {
+						// clear error
+						$scope.error = "";
+
+						// remove file
 						$scope.files.splice($scope.files.indexOf(file), 1);
 					};
 
@@ -91,9 +98,22 @@ define(["angular", "underscore", "services/files", "services/tasks"],
 									require([matchingTask.taskScript], function(compiler) {
 										$q.when(matchingTask.compile(compiler, text, file.name))
 											.then(function(outputText) {
-												outputFile.text = outputText;
-												outputFiles.push(outputFile);
-												dfd.resolve();
+												// if an error is returned
+												if (outputText.message) {
+													dfd.reject({
+														file: file.name,
+														message: outputText.message
+													});
+												} else {
+													outputFile.text = outputText;
+													outputFiles.push(outputFile);
+													dfd.resolve();
+												}
+											}, function(err) {
+												dfd.reject({
+													file: file.name,
+													message: err
+												});
 											});
 									});
 								} else {
@@ -127,6 +147,9 @@ define(["angular", "underscore", "services/files", "services/tasks"],
 
 							//when we're all done, then go to the results page
 							$location.path("/results");
+							$scope.toasting = false;
+						}, function(err) {
+							$scope.error = "Oh no! Something went wrong. Check " + err.file + ". (" + err.message + ")";
 							$scope.toasting = false;
 						});
 					};

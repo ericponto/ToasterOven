@@ -8,7 +8,11 @@ define(["angular"], function(angular) {
 				outputExtension: "min.js",
 				taskScript: "uglifyweb",
 				compile: function(uglify, text) {
-					return uglify(text);
+					try {
+						return uglify(text);
+					} catch (err) {
+						return err;
+					}
 				}
 			}, {
 				name: "cssmin",
@@ -17,7 +21,11 @@ define(["angular"], function(angular) {
 				outputExtension: "min.css",
 				taskScript: "cssmin",
 				compile: function(cssmin, text) {
-					return cssmin(text);
+					try {
+						return cssmin(text);
+					} catch (err) {
+						return err;
+					}
 				}
 			}, {
 				name: "coffee",
@@ -26,7 +34,11 @@ define(["angular"], function(angular) {
 				outputExtension: "js",
 				taskScript: "coffeescript",
 				compile: function(CoffeeScript, text) {
-					return CoffeeScript.compile(text);
+					try {
+						return CoffeeScript.compile(text);
+					} catch (err) {
+						return err;
+					}
 				}
 			}, {
 				name: "jst",
@@ -35,10 +47,14 @@ define(["angular"], function(angular) {
 				outputExtension: "js",
 				taskScript: "underscore",
 				compile: function(_, text, name) {
-					var jstText = "this.JST = this.JST || {};\n";
-					jstText += "this.JST[\"" + name + "\"] = ";
-					jstText += _.template(text).source + ";";
-					return jstText;
+					try {
+						var jstText = "this.JST = this.JST || {};\n";
+						jstText += "this.JST[\"" + name + "\"] = ";
+						jstText += _.template(text).source + ";";
+						return jstText;
+					} catch (err) {
+						return err;
+					}
 				}
 			}, {
 				name: "less",
