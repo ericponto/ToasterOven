@@ -60,7 +60,7 @@
 		</tbody>
 	</table>
 
-	<p class="alert alert-danger" ng-show="error.length">{{error}}</p>
+	<p class="alert alert-danger" ng-show="error.length">{{error}} <button type="button" class="close" aria-hidden="true" ng-click="error=''">&times;</button></p>
 
 	<p>
 		<button class="btn btn-success" ng-click="toastFiles()" ng-disabled="toasting">Toast it <i class="glyphicon glyphicon-refresh spin" ng-show="toasting"></i></button>
