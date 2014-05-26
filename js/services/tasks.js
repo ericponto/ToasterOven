@@ -28,6 +28,23 @@ define(["angular"], function(angular) {
 					}
 				}
 			}, {
+				name: "html",
+				optionText: "HTML - Minify",
+				targetExtension: "html",
+				outputExtension: "html",
+				taskScript: "htmlminifier",
+				compile: function(minify, text, name) {
+					try {
+						return minify(text, {
+							removeComments: true,
+							collapseWhitespace: true,
+							
+						});
+					} catch (err) {
+						return err;
+					}
+				}
+			}, {
 				name: "coffee",
 				optionText: "CoffeeScript - Compile",
 				targetExtension: "coffee",
@@ -43,7 +60,7 @@ define(["angular"], function(angular) {
 			}, {
 				name: "jst",
 				optionText: "Underscore Template - Compile",
-				targetExtension: "html",
+				targetExtension: "jst",
 				outputExtension: "js",
 				taskScript: "underscore",
 				compile: function(_, text, name) {

@@ -9,7 +9,8 @@ require.config({
 		jszip: "vendor/jszip.min",
 		filesaver: "vendor/FileSaver",
 		coffeescript: "vendor/coffee-script",
-		less: "vendor/less-1.7.0"
+		less: "vendor/less-1.7.0",
+		htmlminifier: "vendor/htmlminifier"
 	},
 	shim: {
 		angular: {
@@ -23,6 +24,9 @@ require.config({
 		},
 		jszip: {
 			exports: "JSZip"
+		},
+		htmlminifier: {
+			exports: "minify"
 		}
 	}
 });

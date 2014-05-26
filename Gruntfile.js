@@ -31,7 +31,8 @@ module.exports = function(grunt) {
 							"uglifyweb/dist/uglifyweb-1.1.1.js",
 							"jszip/jszip.min.js",
 							"FileSaver/FileSaver.js",
-							"less/dist/less-1.7.0.js"
+							"less/dist/less-1.7.0.js",
+							"html-minifier/dist/htmlminifier.js"
 						],
 						dest: "js/vendor/",
 						flatten: true
@@ -44,5 +45,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-requirejs");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 
-	grunt.registerTask("default", ["requirejs"]);
+	grunt.registerTask("default", ["copy", "requirejs"]);
 };
