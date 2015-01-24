@@ -38,6 +38,10 @@ module.exports = function(grunt) {
 						flatten: true
 					}
 				]
+			},
+			to5: {
+				src: "node_modules/6to5/browser.js",
+				dest: "vendor/6to5.js"
 			}
 		}
 	});

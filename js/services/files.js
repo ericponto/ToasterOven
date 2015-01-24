@@ -9,7 +9,8 @@ define(["angular"], function(angular) {
 				{ val: "cssmin", text: "CSS - Minify" },
 				{ val: "coffee", text: "CoffeeScript - Compile" },
 				{ val: "less",   text: "Less - Compile" },
-				{ val: "jst",    text: "Underscore Templates - Compile" }
+				{ val: "jst",    text: "Underscore Templates - Compile" },
+				{ val: "to5",    text: "6to5 - Compile" }
 			];
 
 			this.taskMap = {
@@ -17,7 +18,8 @@ define(["angular"], function(angular) {
 				css: "cssmin",
 				coffee: "coffee",
 				html: "jst",
-				less: "less"
+				less: "less",
+				es6: "es6"
 			};
 		});
 });
