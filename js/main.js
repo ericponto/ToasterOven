@@ -10,7 +10,8 @@ require.config({
 		filesaver: "vendor/FileSaver",
 		coffeescript: "vendor/coffee-script",
 		less: "vendor/less-1.7.0",
-		htmlminifier: "vendor/htmlminifier"
+		htmlminifier: "vendor/htmlminifier",
+		to5: "vendor/6to5"
 	},
 	shim: {
 		angular: {
@@ -27,6 +28,9 @@ require.config({
 		},
 		htmlminifier: {
 			exports: "minify"
+		},
+		to5: {
+			exports: "to5"
 		}
 	}
 });

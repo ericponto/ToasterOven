@@ -90,6 +90,19 @@ define(["angular"], function(angular) {
 					});
 					return dfd.promise;
 				}
+			}, {
+				name: "6to5",
+				optionText: "6to5 - Compile",
+				targetExtension: "es6",
+				outputExtension: "js",
+				taskScript: "to5",
+				compile: function(to5, text, name) {
+					try {
+						return to5.transform(text).code;
+					} catch (err) {
+						return err;
+					}
+				}
 			}];
 		}]);
 });

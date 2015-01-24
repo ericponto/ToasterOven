@@ -7,7 +7,7 @@ define(["app"], function(app) {
 			controller: "Download",
 			templateUrl: "results.html"
 		}).otherwise({
-			redirectTo:  "/"
+			redirectTo: "/"
 		});
 	});
 });
