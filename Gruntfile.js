@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 			},
 			to5: {
 				src: "node_modules/6to5/browser.js",
-				dest: "vendor/6to5.js"
+				dest: "js/vendor/6to5.js"
 			}
 		}
 	});
