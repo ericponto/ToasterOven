@@ -1,0 +1,14 @@
+<td>{{file.name}}</td>
+<td>
+	<select class="form-control" name="task">
+		{{#each tasks}}
+			<option value="{{value}}" {{#selected}}selected{{/selected}}>{{text}}</option>
+		{{/each}}
+	</select>
+</td>
+<td>
+	<input type="text" class="form-control" name="outputName" value="{{outputName}}">
+</td>
+<td class="text-center">
+	<a href="#" title="Remove file" class="js-remove text-danger"><i class="glyphicon glyphicon-remove-circle"></i><a>
+</td>

@@ -1,53 +1,72 @@
 module.exports = function(grunt) {
+	var to5ify = require("6to5ify");
+	
 	grunt.initConfig({
-		requirejs: {
-			build: {
+		browserify: {
+			bacon: {
+				files: {
+					"js/bacon-app.js": "_js/bacon/bacon-app.js"
+				},
 				options: {
-					baseUrl: "js",
-					mainConfigFile: "js/main.js",
-					out: "dist/main.js",
-					name: "main",
-					optimize: "uglify2",
-					uglify2: {
-							mangle: false
-					},
-					preserveLicenseComments: false
+					basedir: "_js/",
+					browserifyOptions: {
+						transform: ["6to5ify"]
+					}
+				}
+			},
+			build: {
+				files: {
+					"js/app.js": "_js/app.js"
+				},
+				options: {
+					basedir: "_js/",
+					browserifyOptions: {
+						transform: ["6to5ify"]
+					}
+				}
+			},
+			workers: {
+				files: [{
+					expand: true,
+					cwd: "_js/tasks/workers/",
+					src: ["**/*.js"],
+					dest: "js/tasks/workers/"
+				}],
+				options: {
+					browserifyOptions: {
+						ignoreMissing: true,
+						transform: ["6to5ify", "uglifyify"]
+					}
 				}
 			}
 		},
-		copy: {
-			require: {
-				src: "bower_components/requirejs/require.js",
-				dest: "dist/require.js"
-			},
-			// copy the important bower files to the vendor folder
-			bowerToVendor: {
-				files: [
-					{
-						expand: true,
-						cwd: "bower_components",
-						src: [
-							"underscore/underscore.js",
-							"uglifyweb/dist/uglifyweb-1.1.1.js",
-							"jszip/jszip.min.js",
-							"FileSaver/FileSaver.js",
-							"less/dist/less-1.7.0.js",
-							"html-minifier/dist/htmlminifier.js"
-						],
-						dest: "js/vendor/",
-						flatten: true
-					}
-				]
-			},
-			to5: {
-				src: "node_modules/6to5/browser.js",
-				dest: "js/vendor/6to5.js"
+		handlebars: {
+			build: {
+				files: {
+					"_js/templates.js": [
+						"_templates/**/*"
+					]
+				},
+				options: {
+					commonjs: true
+				}
+			}
+		},
+		uglify: {
+			build: {
+				files: [{
+					expand: true,
+					cwd: "js/",
+					src: ["**/*.js"],
+					dest: "dist/"
+				}]
 			}
 		}
 	});
 
-	grunt.loadNpmTasks("grunt-contrib-requirejs");
-	grunt.loadNpmTasks("grunt-contrib-copy");
+	grunt.loadNpmTasks("grunt-contrib-handlebars");
+	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-browserify");
 
-	grunt.registerTask("default", ["copy", "requirejs"]);
+	grunt.registerTask("default", ["handlebars", "browserify"]);
 };
