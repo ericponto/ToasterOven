@@ -1,7 +1,8 @@
 import $ from "jquery";
 import _ from "underscore";
 import Bacon from "baconjs";
-import readFile from "./../utils/readFile.js";
+import Promise from "native-promise-only";
+import readFile from "./readFile.js";
 import toastFile from "./toastFile.js";
 import {getTaskBy} from "./tasks.js";
 

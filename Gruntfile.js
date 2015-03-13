@@ -5,50 +5,27 @@ module.exports = function(grunt) {
 		browserify: {
 			bacon: {
 				files: {
-					"js/bacon-app.js": "_js/bacon/bacon-app.js"
-				},
-				options: {
-					basedir: "_js/",
-					browserifyOptions: {
-						transform: ["6to5ify"]
-					}
-				}
-			},
-			build: {
-				files: {
 					"js/app.js": "_js/app.js"
 				},
 				options: {
 					basedir: "_js/",
 					browserifyOptions: {
-						transform: ["6to5ify"]
+						transform: ["babelify"]
 					}
 				}
 			},
 			workers: {
 				files: [{
 					expand: true,
-					cwd: "_js/tasks/workers/",
+					cwd: "_js/workers/",
 					src: ["**/*.js"],
-					dest: "js/tasks/workers/"
+					dest: "js/workers/"
 				}],
 				options: {
 					browserifyOptions: {
 						ignoreMissing: true,
-						transform: ["6to5ify", "uglifyify"]
+						transform: ["babelify"]
 					}
-				}
-			}
-		},
-		handlebars: {
-			build: {
-				files: {
-					"_js/templates.js": [
-						"_templates/**/*"
-					]
-				},
-				options: {
-					commonjs: true
 				}
 			}
 		},
@@ -64,9 +41,8 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks("grunt-contrib-handlebars");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-browserify");
 
-	grunt.registerTask("default", ["handlebars", "browserify"]);
+	grunt.registerTask("default", ["browserify"]);
 };

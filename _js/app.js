@@ -1,77 +1,46 @@
+/** @jsx h */
 import $ from "jquery";
-import _ from "underscore";
-import Backbone from "backbone";
-import FileCollection from "./files/FileCollection.js";
-import DropView from "./files/DropView.js";
-import TableView from "./files/TableView.js";
-import ResultsView from "./results/ResultsView.js";
-import DownloadView from "./results/DownloadView.js";
+import Bacon from "baconjs";
+import events from "./events.js";
+import fileMethods from "./files.js";
+import renderTable from "./fileTable.js";
+import renderResults from "./results.js";
+import createZip from "./createZip.js";
 
-Backbone.$ = $;
-
-var collection = new FileCollection();
-
-var dropView = new DropView({
-	el: document,
-	collection
-});
-
-var tableView = new TableView({
-	el: "#files",
-	collection
-});
-
-collection.on("toasted", showResults);
-
-function createResultsCollection() {
-	var resultFiles = collection.reduce((results, model) => {
-		var sameName = _.find(results, result => result.get("outputName") == model.get("outputName"));
-		
-		// combine the files that have the same name
-		if (sameName) {
-			var text = sameName.get("text");
-			
-			text += model.get("text");
-			sameName.set({ text });
-		} else {
-			results.push(model);
-		}
-		
-		return results;
-	}, []);
+// if drops are still allowed
+var droppable = events.toastClick
+	.map(false)
+	.toProperty(true);
 	
-	return new Backbone.Collection(resultFiles);
-}
+// main file collection
+var filesCollection = Bacon.update([],
+	events.drops.takeWhile(droppable), fileMethods.add,
+	events.removeClick.takeWhile(droppable), fileMethods.remove,
+	events.fileChange.takeWhile(droppable), fileMethods.update,
+	events.toastClick.skipWhile(droppable), fileMethods.process
+);
 
-function showResults() {
-	var resultsCollection = createResultsCollection();
-	var resultsView = new ResultsView({
-		el: "#results",
-		collection: resultsCollection
-	});
-	var downloadView = new DownloadView({
-		el: "#download",
-		collection: resultsCollection
+
+// while files are droppable, show the table of files
+filesCollection.takeWhile(droppable).onValue(files => {
+	if (files.length) {
+		$("#files").show();
+		renderTable(files);
+	}
+});
+
+// once the toast em button has been click, start processing the files
+filesCollection.sampledBy(events.toastClick).onValue(filesPromise => {
+	$("#files, .drop-message").hide();
+	$("#processing").show();
+
+	filesPromise.onValue(files => {
+		$("#results, #download").show();
+		$("#processing").hide();
+		renderResults(files);
 	});
 	
-	resultsView.render();
-	resultsView.$el.fadeIn();
-
-	downloadView.$el.fadeIn();
-	
-	// hide the spinner
-	$("#processing").fadeOut();
-}
-
-collection.on("processing", function() {
-	// hide the old stuff
-	tableView.$el
-		.add(".drop-message")
-		.fadeOut();
-		
-	dropView.remove();
-	
-	// show the spinner
-	$("#processing").fadeIn();
+	filesPromise
+		.sampledBy(events.downloadClick)
+		.onValue(createZip);
 });
-

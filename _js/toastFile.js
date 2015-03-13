@@ -1,6 +1,8 @@
+import Promise from "native-promise-only";
+
 export default function toastFile(file) {
 	return new Promise((resolve, reject) => {
-		var worker = new Worker("/dist/tasks/workers/" + file.task + ".js");
+		var worker = new Worker("/dist/workers/" + file.task + ".js");
 	
 		worker.postMessage(file.text);
 	
