@@ -391,7 +391,7 @@ var Promise = _interopRequire(require("native-promise-only"));
 
 function toastFile(file) {
 	return new Promise(function (resolve, reject) {
-		var worker = new Worker("/dist/workers/" + file.task + ".js");
+		var worker = new Worker("dist/workers/" + file.task + ".js");
 
 		worker.postMessage(file.text);
 
