@@ -1,68 +1,89 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
 /** @jsx h */
-var $ = _interopRequire(require("jquery"));
 
-var Bacon = _interopRequire(require("baconjs"));
+var _$ = require("jquery");
 
-var events = _interopRequire(require("./events.js"));
+var _$2 = _interopRequireDefault(_$);
 
-var fileMethods = _interopRequire(require("./files.js"));
+var _Bacon = require("baconjs");
 
-var renderTable = _interopRequire(require("./fileTable.js"));
+var _Bacon2 = _interopRequireDefault(_Bacon);
 
-var renderResults = _interopRequire(require("./results.js"));
+var _events = require("./events.js");
 
-var createZip = _interopRequire(require("./createZip.js"));
+var _events2 = _interopRequireDefault(_events);
+
+var _fileMethods = require("./files.js");
+
+var _fileMethods2 = _interopRequireDefault(_fileMethods);
+
+var _renderTable = require("./fileTable.js");
+
+var _renderTable2 = _interopRequireDefault(_renderTable);
+
+var _renderResults = require("./results.js");
+
+var _renderResults2 = _interopRequireDefault(_renderResults);
+
+var _createZip = require("./createZip.js");
+
+var _createZip2 = _interopRequireDefault(_createZip);
 
 // if drops are still allowed
-var droppable = events.toastClick.map(false).toProperty(true);
+var droppable = _events2["default"].toastClick.map(false).toProperty(true);
 
 // main file collection
-var filesCollection = Bacon.update([], events.drops.takeWhile(droppable), fileMethods.add, events.removeClick.takeWhile(droppable), fileMethods.remove, events.fileChange.takeWhile(droppable), fileMethods.update, events.toastClick.skipWhile(droppable), fileMethods.process);
-
+var filesCollection = _Bacon2["default"].update([], _events2["default"].drops.takeWhile(droppable), _fileMethods2["default"].add, _events2["default"].removeClick.takeWhile(droppable), _fileMethods2["default"].remove, _events2["default"].fileChange.takeWhile(droppable), _fileMethods2["default"].update, _events2["default"].toastClick.skipWhile(droppable), _fileMethods2["default"].process);
 
 // while files are droppable, show the table of files
 filesCollection.takeWhile(droppable).onValue(function (files) {
 	if (files.length) {
-		$("#files").show();
-		renderTable(files);
+		_$2["default"]("#files").show();
+		_renderTable2["default"](files);
 	}
 });
 
 // once the toast em button has been click, start processing the files
-filesCollection.sampledBy(events.toastClick).onValue(function (filesPromise) {
-	$("#files, .drop-message").hide();
-	$("#processing").show();
+filesCollection.sampledBy(_events2["default"].toastClick).onValue(function (filesPromise) {
+	_$2["default"]("#files, .drop-message").hide();
+	_$2["default"]("#processing").show();
 
 	filesPromise.onValue(function (files) {
-		$("#results, #download").show();
-		$("#processing").hide();
-		renderResults(files);
+		_$2["default"]("#results, #download").show();
+		_$2["default"]("#processing").hide();
+		_renderResults2["default"](files);
 	});
 
-	filesPromise.sampledBy(events.downloadClick).onValue(createZip);
+	filesPromise.sampledBy(_events2["default"].downloadClick).onValue(_createZip2["default"]);
 });
-
 
 },{"./createZip.js":2,"./events.js":3,"./fileTable.js":4,"./files.js":5,"./results.js":8,"baconjs":11,"jquery":17}],2:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-var $ = _interopRequire(require("jquery"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var JSZip = _interopRequire(require("jszip"));
+var _$ = require("jquery");
 
-module.exports = function (files) {
-	var zip = new JSZip();
+var _$2 = _interopRequireDefault(_$);
+
+var _JSZip = require("jszip");
+
+var _JSZip2 = _interopRequireDefault(_JSZip);
+
+exports["default"] = function (files) {
+	var zip = new _JSZip2["default"]();
 
 	files.forEach(function (file) {
 		zip.file(file.outputName, file.text);
@@ -71,7 +92,7 @@ module.exports = function (files) {
 	var blob = zip.generate({ type: "blob" });
 	var url = window.URL.createObjectURL(blob);
 
-	var downloadLink = $("<a/>", {
+	var downloadLink = _$2["default"]("<a/>", {
 		href: window.URL.createObjectURL(blob),
 		download: "toaster-oven.zip",
 		hidden: true
@@ -82,128 +103,176 @@ module.exports = function (files) {
 	window.URL.revokeObjectURL(url);
 };
 
+module.exports = exports["default"];
 
 },{"jquery":17,"jszip":26}],3:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-var $ = _interopRequire(require("jquery"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var Bacon = _interopRequire(require("baconjs"));
+var _$ = require("jquery");
 
-$.fn.asEventStream = Bacon.$.asEventStream;
+var _$2 = _interopRequireDefault(_$);
+
+var _Bacon = require("baconjs");
+
+var _Bacon2 = _interopRequireDefault(_Bacon);
+
+_$2["default"].fn.asEventStream = _Bacon2["default"].$.asEventStream;
+
+var $doc = _$2["default"](document);
 
 // set drag and drop to copy effect
-$("body").on("dragover", function (e) {
+_$2["default"]("body").on("dragover", function (e) {
 	e.preventDefault();
 	e.originalEvent.dataTransfer.dropEffect = "copy";
 });
 
 // results toggle
-$(document).on("click", ".js-preview", function (e) {
+$doc.on("click", ".js-preview", function (e) {
 	e.preventDefault();
-	$(this.getAttribute("href")).toggleClass("in");
+	_$2["default"](this.getAttribute("href")).toggleClass("in");
 });
 
 // helper to get name from row
-var getNameFromRow = function (e) {
-	return $(e.target).closest("tr").data("name");
+var getNameFromRow = function getNameFromRow(e) {
+	return _$2["default"](e.target).closest("tr").data("name");
 };
 
 // event stream for the droppped files
-var drops = $("body").asEventStream("drop").doAction(".preventDefault").map(".originalEvent.dataTransfer.files").map($.makeArray);
+var drops = _$2["default"]("body").asEventStream("drop").doAction(".preventDefault").map(".originalEvent.dataTransfer.files").map(_$2["default"].makeArray);
 
 // remove stream
-var removeClick = $(document).asEventStream("click", ".js-remove").doAction(".preventDefault").map(getNameFromRow);
+var removeClick = $doc.asEventStream("click", ".js-remove").doAction(".preventDefault").map(getNameFromRow);
 
 // change task or output name stream
-var fileChange = $(document).asEventStream("change", "[name]").map(function (e) {
+var fileChange = $doc.asEventStream("change", "[name]").map(function (e) {
 	return [getNameFromRow(e), e.target.name, e.target.value];
 });
 
-var toastClick = $(".js-toast").asEventStream("click").doAction(".preventDefault");
+var toastClick = _$2["default"](".js-toast").asEventStream("click").doAction(".preventDefault");
 
-var downloadClick = $(".js-download").asEventStream("click").doAction(".preventDefault");
+var downloadClick = _$2["default"](".js-download").asEventStream("click").doAction(".preventDefault");
 
-module.exports = { drops: drops, removeClick: removeClick, fileChange: fileChange, toastClick: toastClick, downloadClick: downloadClick };
-
+exports["default"] = { drops: drops, removeClick: removeClick, fileChange: fileChange, toastClick: toastClick, downloadClick: downloadClick };
+module.exports = exports["default"];
 
 },{"baconjs":11,"jquery":17}],4:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-var _ = _interopRequire(require("underscore"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var h = _interopRequire(require("virtual-dom/h"));
+var _import = require("underscore");
 
-var taskList = require("./tasks.js").taskList;
-var Render = _interopRequire(require("./render.js"));
+var _import2 = _interopRequireDefault(_import);
+
+var _h = require("virtual-dom/h");
+
+var _h2 = _interopRequireDefault(_h);
+
+var _taskList = require("./tasks.js");
+
+var _Render = require("./render.js");
+
+var _Render2 = _interopRequireDefault(_Render);
 
 // create the select/option vdom
-var createSelect = function (file) {
-	return h("select.form-control", { attributes: { name: "task" } }, taskList.map(function (task) {
-		return h("option", { attributes: _.extend({ value: task.value }, file.task == task.value && { selected: "selected" }) }, [task.text]);
+var createSelect = function createSelect(file) {
+	return _h2["default"]("select.form-control", { attributes: { name: "task" } }, _taskList.taskList.map(function (task) {
+		return _h2["default"]("option", { attributes: _import2["default"].extend({ value: task.value }, file.task == task.value && { selected: "selected" }) }, [task.text]);
 	}));
 };
 
 // create the <tbody> vdom
-var template = function (files) {
-	return h("tbody", files.map(function (file) {
-		return h("tr", { attributes: { "data-name": file.name } }, [h("td", [file.name]), h("td", [createSelect(file)]), h("td", [h("input.form-control", { attributes: { type: "text", name: "outputName", value: file.outputName } })]), h("td.text-center", [h("a.js-remove.text-danger", { attributes: { href: "#", title: "Remove file" } }, [h("i.glyphicon.glyphicon-remove-circle")])])]);
+var template = function template(files) {
+	return _h2["default"]("tbody", files.map(function (file) {
+		return _h2["default"]("tr", { attributes: { "data-name": file.name } }, [_h2["default"]("td", [file.name]), _h2["default"]("td", [createSelect(file)]), _h2["default"]("td", [_h2["default"]("input.form-control", { attributes: { type: "text", name: "outputName", value: file.outputName } })]), _h2["default"]("td.text-center", [_h2["default"]("a.js-remove.text-danger", { attributes: { href: "#", title: "Remove file" } }, [_h2["default"]("i.glyphicon.glyphicon-remove-circle")])])]);
 	}));
 };
 
-var render = Render();
+var render = _Render2["default"]();
 
-module.exports = function (files) {
+exports["default"] = function (files) {
 	return render("#files-table", template, files);
 };
 
+module.exports = exports["default"];
 
 },{"./render.js":7,"./tasks.js":9,"underscore":58,"virtual-dom/h":61}],5:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-var _slicedToArray = function (arr, i) {
+var _slicedToArray = function _slicedToArray(arr, i) {
 	if (Array.isArray(arr)) {
 		return arr;
 	} else if (Symbol.iterator in Object(arr)) {
-		var _arr = [];for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-			_arr.push(_step.value);if (i && _arr.length === i) break;
+		var _arr = [];var _n = true;var _d = false;var _e = undefined;try {
+			for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+				_arr.push(_s.value);if (i && _arr.length === i) break;
+			}
+		} catch (err) {
+			_d = true;_e = err;
+		} finally {
+			try {
+				if (!_n && _i["return"]) _i["return"]();
+			} finally {
+				if (_d) throw _e;
+			}
 		}return _arr;
 	} else {
 		throw new TypeError("Invalid attempt to destructure non-iterable instance");
 	}
 };
 
-var $ = _interopRequire(require("jquery"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var _ = _interopRequire(require("underscore"));
+var _$ = require("jquery");
 
-var Bacon = _interopRequire(require("baconjs"));
+var _$2 = _interopRequireDefault(_$);
 
-var Promise = _interopRequire(require("native-promise-only"));
+var _import = require("underscore");
 
-var readFile = _interopRequire(require("./readFile.js"));
+var _import2 = _interopRequireDefault(_import);
 
-var toastFile = _interopRequire(require("./toastFile.js"));
+var _Bacon = require("baconjs");
 
-var getTaskBy = require("./tasks.js").getTaskBy;
+var _Bacon2 = _interopRequireDefault(_Bacon);
 
+var _Promise = require("native-promise-only");
+
+var _Promise2 = _interopRequireDefault(_Promise);
+
+var _readFile = require("./readFile.js");
+
+var _readFile2 = _interopRequireDefault(_readFile);
+
+var _toastFile = require("./toastFile.js");
+
+var _toastFile2 = _interopRequireDefault(_toastFile);
+
+var _getTaskBy = require("./tasks.js");
 
 var EXTENSION_REGEX = /^(.+)\.(\w+)$/;
 
 // helper methods
-var buildFileParts = function (file) {
+var buildFileParts = function buildFileParts(file) {
 	var _file$name$match = file.name.match(EXTENSION_REGEX);
 
 	var _file$name$match2 = _slicedToArray(_file$name$match, 3);
@@ -211,47 +280,54 @@ var buildFileParts = function (file) {
 	var match = _file$name$match2[0];
 	var origName = _file$name$match2[1];
 	var extension = _file$name$match2[2];
-	var matchTask = getTaskBy("extension", extension);
+
+	var matchTask = _getTaskBy.getTaskBy("extension", extension);
 	var task = matchTask.value;
 	var outputName = "" + origName + "." + matchTask.newExtension;
 
-	return _.extend(file, { task: task, origName: origName, extension: extension, outputName: outputName });
+	return _import2["default"].extend(file, { task: task, origName: origName, extension: extension, outputName: outputName });
 };
 
-module.exports = {
-	add: function (files, newFile) {
+exports["default"] = {
+	add: function add(files, newFile) {
 		return files.concat(newFile.map(buildFileParts));
 	},
-	remove: function (files, name) {
-		return _.reject(files, { name: name });
+	remove: function remove(files, name) {
+		return _import2["default"].reject(files, { name: name });
 	},
-	update: function (files, name, prop, value) {
-		_.findWhere(files, { name: name })[prop] = value;
+	update: function update(files, name, prop, value) {
+		_import2["default"].findWhere(files, { name: name })[prop] = value;
 		return files;
 	},
-	process: function (files) {
-		return Bacon.fromPromise(Promise.all(files.map(function (file) {
-			return readFile(file).then(function (text) {
+	process: function process(files) {
+		return _Bacon2["default"].fromPromise(_Promise2["default"].all(files.map(function (file) {
+			return _readFile2["default"](file).then(function (text) {
 				file.text = text;
-				return toastFile(file);
+				return _toastFile2["default"](file);
 			});
 		})));
 	}
 };
-
+module.exports = exports["default"];
 
 },{"./readFile.js":6,"./tasks.js":9,"./toastFile.js":10,"baconjs":11,"jquery":17,"native-promise-only":57,"underscore":58}],6:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-module.exports = readFile;
-var Promise = _interopRequire(require("native-promise-only"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports["default"] = readFile;
+
+var _Promise = require("native-promise-only");
+
+var _Promise2 = _interopRequireDefault(_Promise);
 
 function readFile(file) {
-	return new Promise(function (resolve, reject) {
+	return new _Promise2["default"](function (resolve, reject) {
 		var reader = new FileReader();
 
 		reader.onload = function (e) {
@@ -264,23 +340,36 @@ function readFile(file) {
 	});
 }
 
+module.exports = exports["default"];
 
 },{"native-promise-only":57}],7:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-var $ = _interopRequire(require("jquery"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var diff = _interopRequire(require("virtual-dom/diff"));
+var _$ = require("jquery");
 
-var patch = _interopRequire(require("virtual-dom/patch"));
+var _$2 = _interopRequireDefault(_$);
 
-var createElement = _interopRequire(require("virtual-dom/create-element"));
+var _diff = require("virtual-dom/diff");
 
-module.exports = function () {
+var _diff2 = _interopRequireDefault(_diff);
+
+var _patch = require("virtual-dom/patch");
+
+var _patch2 = _interopRequireDefault(_patch);
+
+var _createElement = require("virtual-dom/create-element");
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
+exports["default"] = function () {
 	// set the view's el, plus placeholders for rendering
 	var el;
 	var vdom;
@@ -290,54 +379,73 @@ module.exports = function () {
 
 		// create new element and append, or patch the current element
 		if (!el) {
-			el = createElement(newVdom);
-			$(elem).append(el);
+			el = _createElement2["default"](newVdom);
+			_$2["default"](elem).append(el);
 		} else {
-			patch(el, diff(vdom, newVdom));
+			_patch2["default"](el, _diff2["default"](vdom, newVdom));
 		}
 
 		vdom = newVdom;
 	};
 };
 
+;
+module.exports = exports["default"];
 
 },{"jquery":17,"virtual-dom/create-element":59,"virtual-dom/diff":60,"virtual-dom/patch":69}],8:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-var _ = _interopRequire(require("underscore"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var h = _interopRequire(require("virtual-dom/h"));
+var _import = require("underscore");
 
-var Render = _interopRequire(require("./render.js"));
+var _import2 = _interopRequireDefault(_import);
+
+var _h = require("virtual-dom/h");
+
+var _h2 = _interopRequireDefault(_h);
+
+var _Render = require("./render.js");
+
+var _Render2 = _interopRequireDefault(_Render);
 
 // create the <tbody> vdom
-var template = function (files) {
-	return h("div", files.map(function (file, i) {
-		return h("div.panel.panel-info", [h("div.panel-heading", [h("a.pull-right.js-preview", { attributes: { href: "#panel-" + i } }, ["Preview"]), h("h4.panel-title", [file.outputName])]), h("div#panel-" + i + ".panel-collapse.collapse", [h("div.panel-body", [h("pre", [file.text])])])]);
+var template = function template(files) {
+	return _h2["default"]("div", files.map(function (file, i) {
+		return _h2["default"]("div.panel.panel-info", [_h2["default"]("div.panel-heading", [_h2["default"]("a.pull-right.js-preview", { attributes: { href: "#panel-" + i } }, ["Preview"]), _h2["default"]("h4.panel-title", [file.outputName])]), _h2["default"]("div#panel-" + i + ".panel-collapse.collapse", [_h2["default"]("div.panel-body", [_h2["default"]("pre", [file.text])])])]);
 	}));
 };
 
-var render = Render();
+var render = _Render2["default"]();
 
-module.exports = function (files) {
+exports["default"] = function (files) {
 	return render("#results", template, files);
 };
 
+module.exports = exports["default"];
 
 },{"./render.js":7,"underscore":58,"virtual-dom/h":61}],9:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-var _ = _interopRequire(require("underscore"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var taskList = exports.taskList = [{
+var _import = require("underscore");
+
+var _import2 = _interopRequireDefault(_import);
+
+var taskList = [{
 	value: "uglify",
 	extension: "js",
 	newExtension: "min.js",
@@ -369,28 +477,32 @@ var taskList = exports.taskList = [{
 	text: "Compile ES6 with 6to5"
 }];
 
-var getTaskBy = exports.getTaskBy = function (prop, value) {
-	return _.find(taskList, function (task) {
+exports.taskList = taskList;
+var getTaskBy = function getTaskBy(prop, value) {
+	return _import2["default"].find(taskList, function (task) {
 		return task[prop] == value;
 	}) || taskList[0];
 };
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
+exports.getTaskBy = getTaskBy;
 
 },{"underscore":58}],10:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-	return obj && obj.__esModule ? obj["default"] : obj;
+var _interopRequireDefault = function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { "default": obj };
 };
 
-module.exports = toastFile;
-var Promise = _interopRequire(require("native-promise-only"));
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports["default"] = toastFile;
+
+var _Promise = require("native-promise-only");
+
+var _Promise2 = _interopRequireDefault(_Promise);
 
 function toastFile(file) {
-	return new Promise(function (resolve, reject) {
+	return new _Promise2["default"](function (resolve, reject) {
 		var worker = new Worker("dist/workers/" + file.task + ".js");
 
 		worker.postMessage(file.text);
@@ -402,6 +514,7 @@ function toastFile(file) {
 	});
 }
 
+module.exports = exports["default"];
 
 },{"native-promise-only":57}],11:[function(require,module,exports){
 (function (global){

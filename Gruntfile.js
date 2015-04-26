@@ -5,7 +5,8 @@ module.exports = function(grunt) {
 		browserify: {
 			bacon: {
 				files: {
-					"js/app.js": "_js/app.js"
+					"js/app.js": "_js/app.js",
+					"js/babel-app.js": "_js/babel-app.js"
 				},
 				options: {
 					basedir: "_js/",
@@ -44,5 +45,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-browserify");
 
-	grunt.registerTask("default", ["browserify"]);
+	grunt.registerTask("default", ["browserify", "uglify"]);
 };

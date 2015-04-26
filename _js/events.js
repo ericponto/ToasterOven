@@ -3,6 +3,8 @@ import Bacon from "baconjs";
 
 $.fn.asEventStream = Bacon.$.asEventStream;
 
+const $doc = $(document);
+
 // set drag and drop to copy effect
 $("body").on("dragover", e => {
 	e.preventDefault();
@@ -10,7 +12,7 @@ $("body").on("dragover", e => {
 });
 
 // results toggle
-$(document).on("click", ".js-preview", function(e) {
+$doc.on("click", ".js-preview", function(e) {
 	e.preventDefault();
 	$(this.getAttribute("href")).toggleClass("in");
 });
@@ -25,12 +27,12 @@ var drops = $("body").asEventStream("drop")
 	.map($.makeArray);
 
 // remove stream
-var removeClick = $(document).asEventStream("click", ".js-remove")
+var removeClick = $doc.asEventStream("click", ".js-remove")
 	.doAction(".preventDefault")
 	.map(getNameFromRow);
 
 // change task or output name stream
-var fileChange = $(document).asEventStream("change", "[name]")
+var fileChange = $doc.asEventStream("change", "[name]")
 	.map(e => [ getNameFromRow(e), e.target.name, e.target.value ]);
 	
 var toastClick = $(".js-toast").asEventStream("click")
