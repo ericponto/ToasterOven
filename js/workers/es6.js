@@ -12,7 +12,13 @@ var _babel2 = _interopRequireDefault(_babel);
 onmessage = function (e) {
 	var text = e.data;
 
-	postMessage(_babel2["default"].transform(text).code);
+	try {
+		var code = _babel2["default"].transform(text).code;
+	} catch (e) {
+		var code = "Error: " + e.message;
+	}
+
+	postMessage(code);
 };
 
 },{"babel-core/lib/babel/api/browser.js":20}],2:[function(require,module,exports){

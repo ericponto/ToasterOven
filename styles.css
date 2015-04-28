@@ -49,6 +49,19 @@ a.text-danger:focus {
 	border-radius: 5px;
 }
 
-.panel-info a {
+.panel a {
 	color: #fff;
+}
+
+.panel-danger .panel-title:before {
+	content: "!";
+	display: inline-block;
+	color: #e74c3c;
+	background-color: #fff;
+	border-radius: 50%;
+	width: 1em;
+	line-height: 1;
+	text-align: center;
+	font-weight: bold;
+	margin-right: 0.5em;
 }

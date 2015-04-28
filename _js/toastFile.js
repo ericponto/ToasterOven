@@ -1,4 +1,5 @@
 import Promise from "native-promise-only";
+import "./polyfill/startsWith";
 
 export default function toastFile(file) {
 	return new Promise((resolve, reject) => {
@@ -8,6 +9,8 @@ export default function toastFile(file) {
 	
 		worker.onmessage = e => {
 			file.text = e.data;
+			file.error = file.text.startsWith("Error");
+			
 			resolve(file);
 		};
 	});
